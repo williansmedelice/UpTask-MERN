@@ -132,7 +132,9 @@ const agregarColaborador = async (req, res) => {};
 
 const eliminarColaborador = async (req, res) => {};
 
-const obtenerTareas = async (req, res) => {};
+const obtenerTareas = async (req, res) => {
+  
+};
 
 export {
   obtenerProyectos,
