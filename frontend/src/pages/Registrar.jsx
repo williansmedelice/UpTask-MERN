@@ -19,6 +19,27 @@ function Registrar() {
       });
       return;
     }
+
+    if (password !== repetirPassword) {
+      setAlerta({
+        msg: "Los password no son iguales",
+        error: true,
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      setAlerta({
+        msg: "El Password es muy corto, agrega minimo 6 caracteres",
+        error: true,
+      });
+      return;
+    }
+
+    setAlerta({});
+
+    // Crear el usuario en la API
+    console.log("Creando...");
   };
   const { msg } = alerta;
   return (
