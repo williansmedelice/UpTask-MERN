@@ -3,8 +3,11 @@ import { Outlet } from "react-router-dom";
 function AuthLayout() {
   return (
     <>
-      <div>AuthLayout</div>
-      <Outlet />
+      <main className="container mx-auto mt-5 md:mt-20 p-5 md:flex md:justify-center">
+        <div className="md:w-2/3 lg:1/2 bg-red-100">
+          <Outlet />
+        </div>
+      </main>
     </>
   );
 }
