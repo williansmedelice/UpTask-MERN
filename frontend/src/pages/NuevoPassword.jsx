@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
 import Alerta from "../components/Alerta";
+import clientAxios from "../config/clientAxios";
 
 function NuevoPassword() {
   const [password, setPassword] = useState("");
@@ -15,12 +15,7 @@ function NuevoPassword() {
   useEffect(() => {
     const comprobarToken = async () => {
       try {
-        // TODO: Mover hacia un cliente Axios
-        await axios(
-          `${
-            import.meta.env.VITE_BACKEND_URL
-          }/api/usuarios/olvide-password/${token}`
-        );
+        await clientAxios(`/usuarios/olvide-password/${token}`);
         setTokenValido(true);
       } catch (error) {
         // console.log(error);
@@ -31,6 +26,7 @@ function NuevoPassword() {
       }
     };
     comprobarToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (e) => {
@@ -45,11 +41,8 @@ function NuevoPassword() {
     }
 
     try {
-      // TODO: Mover hacia un cliente Axios
-      const { data } = await axios.post(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/usuarios/olvide-password/${token}`,
+      const { data } = await clientAxios.post(
+        `/usuarios/olvide-password/${token}`,
         { password }
       );
 
