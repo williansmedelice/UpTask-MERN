@@ -7,6 +7,7 @@ function NuevoPassword() {
   const [password, setPassword] = useState("");
   const [alerta, setAlerta] = useState({});
   const [tokenValido, setTokenValido] = useState(false);
+  const [passwordModificado, setPasswordModificado] = useState(false);
 
   const params = useParams();
   const { token } = params;
@@ -35,9 +36,9 @@ function NuevoPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password === "" || password.length < 6) {
+    if (password.length < 6) {
       setAlerta({
-        msg: "El Password es obligatorio",
+        msg: "El Password debe ser minimo de 6 caracteres",
         error: true,
       });
       return;
@@ -59,6 +60,7 @@ function NuevoPassword() {
         error: false,
       });
       setPassword("");
+      setPasswordModificado(true);
     } catch (error) {
       console.log(error.response);
       setAlerta({
@@ -105,6 +107,14 @@ function NuevoPassword() {
             className="bg-sky-700 mb-5 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
           />
         </form>
+      )}
+      {passwordModificado && (
+        <Link
+          to="/"
+          className="block text-center my-5 text-slate-500 uppercase text-sm"
+        >
+          Inicia Sesión
+        </Link>
       )}
     </>
   );
