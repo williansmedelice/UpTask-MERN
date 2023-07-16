@@ -6,9 +6,7 @@ import useAuth from "../hooks/useAuth";
 
 function Login() {
   const navigate = useNavigate();
-  const { hola } = useAuth();
-
-  console.log(hola)
+  const { setAuth } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +38,7 @@ function Login() {
       // console.log(data);
       setAlerta({});
       localStorage.setItem("token", data.token);
+      setAuth(data);
     } catch (error) {
       console.log(error);
       setAlerta({
