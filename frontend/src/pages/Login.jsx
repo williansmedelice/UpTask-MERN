@@ -10,7 +10,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [alerta, setAlerta] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if ([email, password].includes("")) {
       setAlerta({
@@ -29,8 +29,19 @@ function Login() {
     }
 
     try {
+      const { data } = await clientAxios.post(`/usuarios/login`, {
+        email,
+        password,
+      });
+      // console.log(data);
+      setAlerta({});
+      localStorage.setItem("token", data.token);
     } catch (error) {
       console.log(error);
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
     }
   };
 
