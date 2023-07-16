@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../components/Alerta";
 import clientAxios from "../config/clientAxios";
+import useAuth from "../hooks/useAuth";
 
 function Login() {
   const navigate = useNavigate();
+  const { hola } = useAuth();
+
+  console.log(hola)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
