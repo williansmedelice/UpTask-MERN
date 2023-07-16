@@ -13,6 +13,7 @@ const ConfirmaCuenta = () => {
   useEffect(() => {
     const confirmarCuenta = async () => {
       try {
+        // TODO: Mover hacia un cliente Axios
         const url = `${
           import.meta.env.VITE_BACKEND_URL
         }/api/usuarios/confirmar/${token}`;

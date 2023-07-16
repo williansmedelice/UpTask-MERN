@@ -42,11 +42,15 @@ function Registrar() {
     // Crear el usuario en la API
     // console.log("Creando...");
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/usuarios`, {
-        nombre,
-        email,
-        password,
-      });
+      // TODO: Mover hacia un cliente Axios
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/usuarios`,
+        {
+          nombre,
+          email,
+          password,
+        }
+      );
       // console.log(data);
 
       setAlerta({
