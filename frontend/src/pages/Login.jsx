@@ -39,7 +39,7 @@ function Login() {
       setAlerta({});
       localStorage.setItem("token", data.token);
       setAuth(data);
-      navigate("/proyectos");
+      navigate("/proyectos", { replace: true });
     } catch (error) {
       console.log(error);
       setAlerta({
