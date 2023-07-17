@@ -8,8 +8,10 @@ import OlvidePassword from "./pages/OlvidePassword";
 import NuevoPassword from "./pages/NuevoPassword";
 import ConfirmaCuenta from "./pages/ConfirmaCuenta";
 import Proyectos from "./pages/Proyectos";
+import NuevoProyecto from "./pages/NuevoProyecto";
 // Context
 import { AuthProvider } from "./context/AuthProvider";
+import PageNotFound404 from "./pages/PageNotFound404";
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
           </Route>
           <Route path="/proyectos" element={<RutaProtegida />}>
             <Route index element={<Proyectos />} />
+            <Route path="crear-proyecto" element={<NuevoProyecto />} />
           </Route>
+          <Route path="*" element={<PageNotFound404 />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

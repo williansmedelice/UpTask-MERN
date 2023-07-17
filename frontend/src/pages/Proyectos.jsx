@@ -1,7 +1,9 @@
 function Proyectos() {
   return (
-    <div>Proyectos</div>
-  )
+    <>
+      <h1 className="text-4xl font-black">Proyectos</h1>
+    </>
+  );
 }
 
-export default Proyectos
+export default Proyectos;
