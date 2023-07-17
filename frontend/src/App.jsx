@@ -9,28 +9,31 @@ import NuevoPassword from "./pages/NuevoPassword";
 import ConfirmaCuenta from "./pages/ConfirmaCuenta";
 import Proyectos from "./pages/Proyectos";
 import NuevoProyecto from "./pages/NuevoProyecto";
+import PageNotFound404 from "./pages/PageNotFound404";
 // Context
 import { AuthProvider } from "./context/AuthProvider";
-import PageNotFound404 from "./pages/PageNotFound404";
+import { ProyectosProvider } from "./context/ProyectosProvider";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<AuthLayout />}>
-            <Route index element={<Login />} />
-            <Route path="registrar" element={<Registrar />} />
-            <Route path="olvide-password" element={<OlvidePassword />} />
-            <Route path="nuevo-password/:token" element={<NuevoPassword />} />
-            <Route path="confirmar/:token" element={<ConfirmaCuenta />} />
-          </Route>
-          <Route path="/proyectos" element={<RutaProtegida />}>
-            <Route index element={<Proyectos />} />
-            <Route path="crear-proyecto" element={<NuevoProyecto />} />
-          </Route>
-          <Route path="*" element={<PageNotFound404 />} />
-        </Routes>
+        <ProyectosProvider>
+          <Routes>
+            <Route path="/" element={<AuthLayout />}>
+              <Route index element={<Login />} />
+              <Route path="registrar" element={<Registrar />} />
+              <Route path="olvide-password" element={<OlvidePassword />} />
+              <Route path="nuevo-password/:token" element={<NuevoPassword />} />
+              <Route path="confirmar/:token" element={<ConfirmaCuenta />} />
+            </Route>
+            <Route path="/proyectos" element={<RutaProtegida />}>
+              <Route index element={<Proyectos />} />
+              <Route path="crear-proyecto" element={<NuevoProyecto />} />
+            </Route>
+            <Route path="*" element={<PageNotFound404 />} />
+          </Routes>
+        </ProyectosProvider>
       </AuthProvider>
     </BrowserRouter>
   );
