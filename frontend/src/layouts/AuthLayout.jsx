@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import Loader from "../components/Loader";
 
 function AuthLayout() {
   const { cargando } = useAuth();
 
-  if (cargando) return "Cargando...!";
+  if (cargando) return <Loader />;
 
   return (
     <>
