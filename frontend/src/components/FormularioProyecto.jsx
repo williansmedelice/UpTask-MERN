@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Alerta from "../components/Alerta";
+import useProyectos from "../hooks/useProyectos";
 
 const FormularioProyecto = () => {
   const [nombre, setNombre] = useState("");
@@ -6,8 +8,36 @@ const FormularioProyecto = () => {
   const [fechaEntrega, setFechaEntrega] = useState("");
   const [cliente, setCliente] = useState("");
 
+  const { alerta, mostrarAlerta, submitProyecto } = useProyectos();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if ([nombre, descripcion, fechaEntrega, cliente].includes("")) {
+      mostrarAlerta({
+        msg: "Todos los Campos son obligatorios",
+        error: true,
+      });
+      return;
+    }
+
+    // Pasar los datos al provider
+    submitProyecto({
+      nombre,
+      descripcion,
+      fechaEntrega,
+      cliente,
+    });
+  };
+
+  const { msg } = alerta;
+
   return (
-    <form className="bg-white py-10 px-5 md:w-1/2 rounded-lg shadow">
+    <form
+      className="bg-white py-10 px-5 md:w-1/2 rounded-lg shadow"
+      onSubmit={handleSubmit}
+    >
+      {msg && <Alerta alerta={alerta} />}
       <div className="mb-5">
         <label
           htmlFor="nombre"
@@ -72,7 +102,11 @@ const FormularioProyecto = () => {
           onChange={(e) => setCliente(e.target.value)}
         />
       </div>
-      <input type="submit" value="Crear Proyecto" className="bg-sky-600 w-full p-3 uppercase font-bold text-white rounded cursor-pointer hover:bg-sky-700 transition-colors"/>
+      <input
+        type="submit"
+        value="Crear Proyecto"
+        className="bg-sky-600 w-full p-3 uppercase font-bold text-white rounded cursor-pointer hover:bg-sky-700 transition-colors"
+      />
     </form>
   );
 };
