@@ -48,12 +48,8 @@ const obtenerProyecto = async (req, res) => {
     }
 
     // Obtener las tareas del Proyecto
-    const tareas = await Tarea.find().where("proyecto").equals(proyecto._id);
 
-    res.json({
-      proyecto,
-      tareas,
-    });
+    res.json(proyecto);
   } catch (error) {
     console.log(error);
     const err = new Error("Hubo un error");

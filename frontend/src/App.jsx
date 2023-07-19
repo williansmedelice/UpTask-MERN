@@ -10,6 +10,7 @@ import ConfirmaCuenta from "./pages/ConfirmaCuenta";
 import Proyectos from "./pages/Proyectos";
 import NuevoProyecto from "./pages/NuevoProyecto";
 import PageNotFound404 from "./pages/PageNotFound404";
+import Proyecto from "./pages/Proyecto";
 // Context
 import { AuthProvider } from "./context/AuthProvider";
 import { ProyectosProvider } from "./context/ProyectosProvider";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/proyectos" element={<RutaProtegida />}>
               <Route index element={<Proyectos />} />
               <Route path="crear-proyecto" element={<NuevoProyecto />} />
+              <Route path=":id" element={<Proyecto />} />
             </Route>
             <Route path="*" element={<PageNotFound404 />} />
           </Routes>
