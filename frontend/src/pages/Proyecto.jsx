@@ -20,7 +20,7 @@ const Proyecto = () => {
   return (
     <div className="flex justify-between">
       <h1 className="font-black text-4xl">{nombre}</h1>
-      <div className="flex items-cente gap-2 text-gray-400 hover:text-black">
+      <div className="flex items-center gap-2 text-gray-400 hover:text-black">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
