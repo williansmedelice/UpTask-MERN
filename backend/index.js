@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import morgan from "morgan";
 import conectarDB from "./config/db.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import proyectoRoutes from "./routes/proyectoRoutes.js";
@@ -8,17 +9,18 @@ import tareaRoutes from "./routes/tareaRoutes.js";
 
 const app = express();
 app.use(express.json());
+app.use(morgan("dev"));
 
 dotenv.config();
 
 conectarDB();
 
 // Configurar CORS
-const whitelist = [process.env.FRONTEND_URL];
+const whitelist = [process.env.FRONTEND_URL, "http://192.168.0.22:5173"];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // console.log(origin);
+    console.log(origin);
     if (whitelist.includes(origin)) {
       // Puede Consultar la API
       callback(null, true);

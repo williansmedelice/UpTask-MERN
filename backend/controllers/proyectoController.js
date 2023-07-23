@@ -6,7 +6,8 @@ const obtenerProyectos = async (req, res) => {
   try {
     const proyectos = await Proyecto.find()
       .where("creador")
-      .equals(req.usuario);
+      .equals(req.usuario)
+      .select("-tareas");
     res.json(proyectos);
   } catch (error) {
     console.log(error);
@@ -32,7 +33,7 @@ const nuevoProyecto = async (req, res) => {
 const obtenerProyecto = async (req, res) => {
   const { id } = req.params;
   try {
-    const proyecto = await Proyecto.findById(id);
+    const proyecto = await Proyecto.findById(id).populate("tareas");
 
     if (!proyecto) {
       const error = new Error("No encontrado");
