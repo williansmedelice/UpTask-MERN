@@ -13,6 +13,7 @@ const ProyectosProvider = ({ children }) => {
   const [cargando, setCargando] = useState(false);
   const [modalFormularioTarea, setModalFormularioTarea] = useState(false);
   const [tarea, setTarea] = useState({});
+  const [modalEliminarTarea, setModalEliminarTarea] = useState(false);
 
   const navigate = useNavigate();
   const { auth } = useAuth();
@@ -258,19 +259,19 @@ const ProyectosProvider = ({ children }) => {
       // Actualizar tarea, sincronizar state actual
 
       // Metodo 1
-      // const proyectoActualizado = { ...proyecto };
-      // proyectoActualizado.tareas = proyectoActualizado.tareas.map(
-      //   (tareaState) => (tareaState._id === data._id ? data : tareaState)
-      // );
-      // setProyecto(proyectoActualizado);
+      const proyectoActualizado = { ...proyecto };
+      proyectoActualizado.tareas = proyectoActualizado.tareas.map(
+        (tareaState) => (tareaState._id === data._id ? data : tareaState)
+      );
+      setProyecto(proyectoActualizado);
 
       // Metodo 2
-      setProyecto({
-        ...proyecto,
-        tareas: proyecto.tareas.map((tareaState) =>
-          tareaState._id === data._id ? data : tareaState
-        ),
-      });
+      // setProyecto({
+      //   ...proyecto,
+      //   tareas: proyecto.tareas.map((tareaState) =>
+      //     tareaState._id === data._id ? data : tareaState
+      //   ),
+      // });
 
       setAlerta({});
       setModalFormularioTarea(false);
@@ -285,6 +286,60 @@ const ProyectosProvider = ({ children }) => {
     setModalFormularioTarea(true);
   };
 
+  const handleModalEliminarTarea = (tarea) => {
+    setTarea(tarea);
+    setModalEliminarTarea(!modalEliminarTarea);
+  };
+
+  const eliminarTarea = async () => {
+    // console.log(tarea);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.delete(`/tareas/${tarea._id}`, config);
+      // console.log(data);
+      setAlerta({
+        msg: data.msg,
+        error: false,
+      });
+
+      // console.log(data);
+
+      // Actualizar tarea, sincronizar state actual
+      // Metodo 1
+      const proyectosActualizado = { ...proyecto };
+      proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
+        (tareaState) => tareaState._id !== tarea._id
+      );
+
+      setProyecto(proyectosActualizado);
+
+      // Metodo 2
+      // setProyecto({
+      //   ...proyecto,
+      //   tareas: proyecto.tareas.filter(
+      //     (tareaState) => tareaState._id !== tarea._id
+      //   ),
+      // });
+
+      setModalEliminarTarea(false);
+      setTarea({});
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -294,6 +349,7 @@ const ProyectosProvider = ({ children }) => {
         cargando,
         modalFormularioTarea,
         tarea,
+        modalEliminarTarea,
         mostrarAlerta,
         submitProyecto,
         obtenerProyecto,
@@ -303,6 +359,8 @@ const ProyectosProvider = ({ children }) => {
         handleModalTarea,
         submitTarea,
         handleModalEditarTarea,
+        handleModalEliminarTarea,
+        eliminarTarea,
       }}
     >
       {children}
