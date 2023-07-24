@@ -196,10 +196,20 @@ const ProyectosProvider = ({ children }) => {
 
   const handleModalTarea = () => {
     setModalFormularioTarea(!modalFormularioTarea);
+    setTarea({});
   };
 
   const submitTarea = async (tarea) => {
     // console.log(tarea);
+
+    if (tarea?.id) {
+      await editarTarea(tarea);
+    } else {
+      await crearTarea(tarea);
+    }
+  };
+
+  const crearTarea = async (tarea) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -225,6 +235,56 @@ const ProyectosProvider = ({ children }) => {
     }
   };
 
+  const editarTarea = async (tarea) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.put(
+        `/tareas/${tarea.id}`,
+        tarea,
+        config
+      );
+
+      // console.log(data);
+
+      // Actualizar tarea, sincronizar state actual
+
+      // Metodo 1
+      // const proyectoActualizado = { ...proyecto };
+      // proyectoActualizado.tareas = proyectoActualizado.tareas.map(
+      //   (tareaState) => (tareaState._id === data._id ? data : tareaState)
+      // );
+      // setProyecto(proyectoActualizado);
+
+      // Metodo 2
+      setProyecto({
+        ...proyecto,
+        tareas: proyecto.tareas.map((tareaState) =>
+          tareaState._id === data._id ? data : tareaState
+        ),
+      });
+
+      setAlerta({});
+      setModalFormularioTarea(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleModalEditarTarea = (tarea) => {
+    // console.log(tarea);
+    setTarea(tarea);
+    setModalFormularioTarea(true);
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -233,6 +293,7 @@ const ProyectosProvider = ({ children }) => {
         proyecto,
         cargando,
         modalFormularioTarea,
+        tarea,
         mostrarAlerta,
         submitProyecto,
         obtenerProyecto,
@@ -241,6 +302,7 @@ const ProyectosProvider = ({ children }) => {
         eliminarProyecto,
         handleModalTarea,
         submitTarea,
+        handleModalEditarTarea,
       }}
     >
       {children}
