@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import useProyectos from "../hooks/useProyectos";
 
