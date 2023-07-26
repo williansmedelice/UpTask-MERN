@@ -376,6 +376,28 @@ const ProyectosProvider = ({ children }) => {
 
   const agregarColaborador = async (email) => {
     console.log(email);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.post(
+        `/proyectos/colaboradores/${proyecto._id}`,
+        { email },
+        config
+      );
+      // console.log(data);
+      setColaborador(data);
+      setAlerta({});
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

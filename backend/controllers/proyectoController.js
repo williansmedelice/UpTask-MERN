@@ -137,10 +137,12 @@ const buscarColaborador = async (req, res) => {
   // console.log(req.body)
   const { email } = req.body;
   try {
-    const usuario = await Usuario.findOne({ email }).select("-confirmado -password -token -createdAt -updatedAt -__v");
+    const usuario = await Usuario.findOne({ email }).select(
+      "-confirmado -password -token -createdAt -updatedAt -__v"
+    );
 
     if (!usuario) {
-      const error = new Error("Usuario no encontrado");
+      const error = new Error("Proyecto no encontrado");
       return res.status(404).json({ msg: error.message });
     }
 
@@ -151,7 +153,20 @@ const buscarColaborador = async (req, res) => {
   }
 };
 
-const agregarColaborador = async (req, res) => {};
+const agregarColaborador = async (req, res) => {
+  // console.log(req.params.id);
+  try {
+    const proyecto = await Proyecto.findById(req.params.id);
+    if (!proyecto) {
+      const error = new Error("Usuario No Encontrado");
+      return res.status(404).json({ msg: error.message });
+    }
+    res.json({});
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Hubo un error" });
+  }
+};
 
 const eliminarColaborador = async (req, res) => {};
 

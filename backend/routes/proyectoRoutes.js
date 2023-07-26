@@ -24,7 +24,7 @@ router
   .delete(checkAuth, eliminarProyecto);
 
 router.post("/colaboradores", checkAuth, buscarColaborador);
-router.post("/colaboradore/:id", checkAuth, agregarColaborador);
-router.delete("/colaboradore/:id", checkAuth, eliminarColaborador);
+router.post("/colaboradores/:id", checkAuth, agregarColaborador);
+router.delete("/colaboradores/:id", checkAuth, eliminarColaborador);
 
 export default router;
