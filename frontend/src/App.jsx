@@ -12,6 +12,7 @@ import NuevoProyecto from "./pages/NuevoProyecto";
 import PageNotFound404 from "./pages/PageNotFound404";
 import Proyecto from "./pages/Proyecto";
 import EditarProyecto from "./pages/EditarProyecto";
+import NuevoColaborador from "./pages/NuevoColaborador";
 // Context
 import { AuthProvider } from "./context/AuthProvider";
 import { ProyectosProvider } from "./context/ProyectosProvider";
@@ -32,6 +33,10 @@ function App() {
             <Route path="/proyectos" element={<RutaProtegida />}>
               <Route index element={<Proyectos />} />
               <Route path="crear-proyecto" element={<NuevoProyecto />} />
+              <Route
+                path="nuevo-colaborador/:id"
+                element={<NuevoColaborador />}
+              />
               <Route path=":id" element={<Proyecto />} />
               <Route path="editar/:id" element={<EditarProyecto />} />
             </Route>
