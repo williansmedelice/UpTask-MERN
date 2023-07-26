@@ -151,10 +151,12 @@ const ProyectosProvider = ({ children }) => {
       const { data } = await clientAxios(`/proyectos/${id}`, config);
       // console.log(data);
       setProyecto(data);
-      setCargando(false);
     } catch (error) {
-      console.log(error);
-      setCargando(false);
+      // console.log(error);
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
     } finally {
       setCargando(false);
     }
@@ -364,7 +366,7 @@ const ProyectosProvider = ({ children }) => {
       setColaborador(data);
       setAlerta({});
     } catch (error) {
-      console.log(error.response);
+      // console.log(error.response);
       setAlerta({
         msg: error.response.data.msg,
         error: true,
@@ -375,7 +377,7 @@ const ProyectosProvider = ({ children }) => {
   };
 
   const agregarColaborador = async (email) => {
-    console.log(email);
+    // console.log(email);
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
@@ -389,14 +391,17 @@ const ProyectosProvider = ({ children }) => {
 
       const { data } = await clientAxios.post(
         `/proyectos/colaboradores/${proyecto._id}`,
-        { email },
+        email,
         config
       );
-      // console.log(data);
-      setColaborador(data);
+      console.log(data);
       setAlerta({});
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
     }
   };
 
