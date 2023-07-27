@@ -7,7 +7,7 @@ const FormularioColaborador = () => {
 
   const { alerta, mostrarAlerta, submitColaborador } = useProyectos();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (email === "") {
       mostrarAlerta({
@@ -17,7 +17,8 @@ const FormularioColaborador = () => {
       return;
     }
 
-    submitColaborador(email);
+    await submitColaborador(email);
+    setEmail("");
   };
 
   const { msg } = alerta;

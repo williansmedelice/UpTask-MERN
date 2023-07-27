@@ -394,7 +394,12 @@ const ProyectosProvider = ({ children }) => {
         email,
         config
       );
-      console.log(data);
+      // console.log(data);
+      setAlerta({
+        msg: data.msg,
+        error: false,
+      });
+      setColaborador({});
       setAlerta({});
     } catch (error) {
       // console.log(error);
