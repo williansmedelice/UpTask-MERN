@@ -15,6 +15,8 @@ const ProyectosProvider = ({ children }) => {
   const [tarea, setTarea] = useState({});
   const [modalEliminarTarea, setModalEliminarTarea] = useState(false);
   const [colaborador, setColaborador] = useState({});
+  const [modalEliminarColaborador, setModalEliminarColaborador] =
+    useState(false);
 
   const navigate = useNavigate();
   const { auth } = useAuth();
@@ -410,6 +412,16 @@ const ProyectosProvider = ({ children }) => {
     }
   };
 
+  const handleModalEliminarColaborador = (colaborador) => {
+    setModalEliminarColaborador(!modalEliminarColaborador);
+    console.log(colaborador);
+    setColaborador(colaborador);
+  };
+
+  const eliminarColaborador = () => {
+    setModalEliminarColaborador(false);
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -421,6 +433,7 @@ const ProyectosProvider = ({ children }) => {
         tarea,
         colaborador,
         modalEliminarTarea,
+        modalEliminarColaborador,
         mostrarAlerta,
         submitProyecto,
         obtenerProyecto,
@@ -434,6 +447,8 @@ const ProyectosProvider = ({ children }) => {
         eliminarTarea,
         submitColaborador,
         agregarColaborador,
+        handleModalEliminarColaborador,
+        eliminarColaborador,
       }}
     >
       {children}
