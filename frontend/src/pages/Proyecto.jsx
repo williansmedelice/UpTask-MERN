@@ -34,7 +34,9 @@ const Proyecto = () => {
 
   const { msg } = alerta;
 
-  return (
+  return msg && alerta.error ? (
+    <Alerta alerta={alerta} />
+  ) : (
     <>
       <div className="flex justify-between">
         <h1 className="font-black text-4xl">{nombre}</h1>

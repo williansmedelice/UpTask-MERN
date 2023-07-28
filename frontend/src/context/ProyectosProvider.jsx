@@ -153,6 +153,8 @@ const ProyectosProvider = ({ children }) => {
       const { data } = await clientAxios(`/proyectos/${id}`, config);
       // console.log(data);
       setProyecto(data);
+
+      setAlerta({});
     } catch (error) {
       // console.log(error);
       setAlerta({
@@ -401,8 +403,12 @@ const ProyectosProvider = ({ children }) => {
         msg: data.msg,
         error: false,
       });
+
       setColaborador({});
-      setAlerta({});
+
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
     } catch (error) {
       // console.log(error);
       setAlerta({
@@ -418,9 +424,59 @@ const ProyectosProvider = ({ children }) => {
     setColaborador(colaborador);
   };
 
-  const eliminarColaborador = () => {
+  const eliminarColaborador = async () => {
     console.log(colaborador);
-    setModalEliminarColaborador(false);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.post(
+        `/proyectos/eliminar-colaborador/${proyecto._id}`,
+        { id: colaborador._id },
+        config
+      );
+      // console.log(data);
+
+      // Actualizar colaboador, sincronizar state actual
+      // Metodo 1
+      const proyectoActualizado = { ...proyecto };
+      proyectoActualizado.colaboradores =
+        proyectoActualizado.colaboradores.filter(
+          (colaboradorState) => colaboradorState._id !== colaborador._id
+        );
+
+      setProyecto(proyectoActualizado);
+
+      // Metodo 2
+      // setProyecto({
+      //   ...proyecto,
+      //   colaboradores: proyecto.colaboradores.filter(
+      //     (colaboradorState) => colaboradorState._id !== colaborador._id
+      //   ),
+      // });
+
+      setAlerta({
+        msg: data.msg,
+        error: false,
+      });
+
+      setColaborador({});
+      setModalEliminarColaborador(false);
+
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

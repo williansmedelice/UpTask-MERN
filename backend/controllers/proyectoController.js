@@ -2,12 +2,14 @@ import Proyecto from "../models/Proyecto.js";
 import Usuario from "../models/Usuario.js";
 
 const obtenerProyectos = async (req, res) => {
-  //   console.log(req.usuario);
+  // console.log(req.usuario);
   try {
-    const proyectos = await Proyecto.find()
-      .where("creador")
-      .equals(req.usuario)
-      .select("-tareas");
+    const proyectos = await Proyecto.find({
+      $or: [
+        { colaboradores: { $in: req.usuario } },
+        { creador: { $in: req.usuario } },
+      ],
+    }).select("-tareas");
     res.json(proyectos);
   } catch (error) {
     console.log(error);
@@ -45,7 +47,7 @@ const obtenerProyecto = async (req, res) => {
     // console.log(proyecto.creador);
     // console.log(req.usuario._id);
 
-    if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+    if (proyecto.creador.toString() !== req.usuario._id.toString() && !proyecto.colaboradores.some((colaborador) => colaborador._id.toString() === req.usuario._id.toString())) {
       const error = new Error("Acción No Válida");
       return res.status(401).json({ msg: error.message });
     }
@@ -219,24 +221,13 @@ const eliminarColaborador = async (req, res) => {
       return res.status(404).json({ msg: error.message });
     }
 
-    const { email } = req.body;
+    // Esta bien, se puede eliminar el colaborador
+    proyecto.colaboradores.pull(req.body.id);
+    console.log(proyecto);
 
-    const usuario = await Usuario.findOne({ email }).select(
-      "-confirmado -password -token -createdAt -updatedAt -__v"
-    );
+    await proyecto.save();
 
-    if (!usuario) {
-      const error = new Error("Usuario no encontrado");
-      return res.status(404).json({ msg: error.message });
-    }
-
-    // El colaborador no es el admin del poyecto
-    if (proyecto.creador.toString() === usuario._id.toString()) {
-      const error = new Error(
-        "El Creador del Proyecto no puede ser colaborador"
-      );
-      return res.status(404).json({ msg: error.message });
-    }
+    res.json({ msg: "Colaborador Eliminado Correctamente" });
   } catch (error) {}
 };
 

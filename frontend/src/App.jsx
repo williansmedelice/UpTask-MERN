@@ -9,7 +9,7 @@ import NuevoPassword from "./pages/NuevoPassword";
 import ConfirmaCuenta from "./pages/ConfirmaCuenta";
 import Proyectos from "./pages/Proyectos";
 import NuevoProyecto from "./pages/NuevoProyecto";
-import PageNotFound404 from "./pages/PageNotFound404";
+// import PageNotFound404 from "./pages/PageNotFound404";
 import Proyecto from "./pages/Proyecto";
 import EditarProyecto from "./pages/EditarProyecto";
 import NuevoColaborador from "./pages/NuevoColaborador";
@@ -40,7 +40,7 @@ function App() {
               <Route path=":id" element={<Proyecto />} />
               <Route path="editar/:id" element={<EditarProyecto />} />
             </Route>
-            <Route path="*" element={<PageNotFound404 />} />
+            {/* <Route path="*" element={<PageNotFound404 />} /> */}
           </Routes>
         </ProyectosProvider>
       </AuthProvider>
