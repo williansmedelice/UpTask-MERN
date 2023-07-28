@@ -414,11 +414,12 @@ const ProyectosProvider = ({ children }) => {
 
   const handleModalEliminarColaborador = (colaborador) => {
     setModalEliminarColaborador(!modalEliminarColaborador);
-    console.log(colaborador);
+    // console.log(colaborador);
     setColaborador(colaborador);
   };
 
   const eliminarColaborador = () => {
+    console.log(colaborador);
     setModalEliminarColaborador(false);
   };
 
