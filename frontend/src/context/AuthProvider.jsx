@@ -32,9 +32,9 @@ const AuthProvider = ({ children }) => {
         // console.log(data);
         setAuth(data);
         // navigate("/proyectos", { replace: true });
-        navigate("/proyectos");
+        // navigate("/proyectos");
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         setAuth({});
       }
 

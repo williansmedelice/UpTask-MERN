@@ -47,7 +47,13 @@ const obtenerProyecto = async (req, res) => {
     // console.log(proyecto.creador);
     // console.log(req.usuario._id);
 
-    if (proyecto.creador.toString() !== req.usuario._id.toString() && !proyecto.colaboradores.some((colaborador) => colaborador._id.toString() === req.usuario._id.toString())) {
+    if (
+      proyecto.creador.toString() !== req.usuario._id.toString() &&
+      !proyecto.colaboradores.some(
+        (colaborador) =>
+          colaborador._id.toString() === req.usuario._id.toString()
+      )
+    ) {
       const error = new Error("Acción No Válida");
       return res.status(401).json({ msg: error.message });
     }
@@ -223,7 +229,7 @@ const eliminarColaborador = async (req, res) => {
 
     // Esta bien, se puede eliminar el colaborador
     proyecto.colaboradores.pull(req.body.id);
-    console.log(proyecto);
+    // console.log(proyecto);
 
     await proyecto.save();
 

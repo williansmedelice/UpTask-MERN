@@ -161,6 +161,10 @@ const ProyectosProvider = ({ children }) => {
         msg: error.response.data.msg,
         error: true,
       });
+
+      setTimeout(() => {
+        setAlerta({})
+    }, 3000);
     } finally {
       setCargando(false);
     }
@@ -494,7 +498,6 @@ const ProyectosProvider = ({ children }) => {
         mostrarAlerta,
         submitProyecto,
         obtenerProyecto,
-        setProyecto,
         editarProyecto,
         eliminarProyecto,
         handleModalTarea,
