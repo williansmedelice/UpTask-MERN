@@ -3,7 +3,8 @@ import useAdmin from "../hooks/useAdmin";
 import { formatearFecha } from "../helpers/formatearfecha";
 
 const Tarea = ({ tarea }) => {
-  const { handleModalEditarTarea, handleModalEliminarTarea } = useProyectos();
+  const { handleModalEditarTarea, handleModalEliminarTarea, completarTarea } =
+    useProyectos();
   const { nombre, descripcion, fechaEntrega, prioridad, _id, estado } = tarea;
   const admin = useAdmin();
   return (
@@ -24,21 +25,13 @@ const Tarea = ({ tarea }) => {
             Editar
           </button>
         )}
-        {estado ? (
-          <button
-            type="button"
-            className="bg-sky-600 px-4 py-3 text-white uppercase font-bold text-sm rounded-lg"
-          >
-            Completa
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="bg-gray-600 px-4 py-3 text-white uppercase font-bold text-sm rounded-lg"
-          >
-            Incompleta
-          </button>
-        )}
+        <button
+          type="button"
+          className={`${estado? "bg-sky-600": "bg-gray-600"} px-4 py-3 text-white uppercase font-bold text-sm rounded-lg`}
+          onClick={() => completarTarea(_id)}
+        >
+          {estado ? "Completa" : "Imcompleta"}
+        </button>
         {admin && (
           <button
             type="button"

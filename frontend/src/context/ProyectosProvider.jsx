@@ -157,14 +157,14 @@ const ProyectosProvider = ({ children }) => {
       setAlerta({});
     } catch (error) {
       // console.log(error);
+      navigate("/proyectos");
       setAlerta({
         msg: error.response.data.msg,
         error: true,
       });
-
       setTimeout(() => {
-        setAlerta({})
-    }, 3000);
+        setAlerta({});
+      }, 3000);
     } finally {
       setCargando(false);
     }
@@ -429,7 +429,7 @@ const ProyectosProvider = ({ children }) => {
   };
 
   const eliminarColaborador = async () => {
-    console.log(colaborador);
+    // console.log(colaborador);
 
     try {
       const token = localStorage.getItem("token");
@@ -483,6 +483,48 @@ const ProyectosProvider = ({ children }) => {
     }
   };
 
+  const completarTarea = async (id) => {
+    // console.log(id);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await clientAxios.post(
+        `/tareas/estado/${id}`,
+        {},
+        config
+      );
+      console.log("resultados: ", data);
+
+      // Metodo 1
+      const proyectoActualizado = { ...proyecto };
+      proyectoActualizado.tareas = proyectoActualizado.tareas.map(
+        (tareaState) => (tareaState._id === data._id ? data : tareaState)
+      );
+      setProyecto(proyectoActualizado);
+
+      // Metodo 2
+      // setProyecto({
+      //   ...proyecto,
+      //   tareas: proyecto.tareas.map((tareaState) =>
+      //     tareaState._id === data._id ? data : tareaState
+      //   ),
+      // });
+
+      setTarea({});
+      setAlerta({});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -509,6 +551,7 @@ const ProyectosProvider = ({ children }) => {
         agregarColaborador,
         handleModalEliminarColaborador,
         eliminarColaborador,
+        completarTarea,
       }}
     >
       {children}
