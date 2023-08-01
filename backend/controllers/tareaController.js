@@ -138,6 +138,7 @@ const cambiarEstado = async (req, res) => {
       return res.status(403).json({ msg: error.message });
     }
     tarea.estado = !tarea.estado;
+    tarea.completado = req.usuario._id;
 
     await tarea.save();
 
