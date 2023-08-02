@@ -38,7 +38,7 @@ const obtenerTarea = async (req, res) => {
 
   try {
     const tarea = await Tarea.findById(id).populate("proyecto");
-    console.log(tarea);
+    // console.log(tarea);
 
     if (!tarea) {
       const error = new Error("Tarea no encontrada");
@@ -142,7 +142,11 @@ const cambiarEstado = async (req, res) => {
 
     await tarea.save();
 
-    res.json(tarea);
+    const tareaAlmacenada = await Tarea.findById(id)
+      .populate("proyecto")
+      .populate("completado", "nombre");
+
+    res.json(tareaAlmacenada);
   } catch (error) {
     console.log(error);
     const err = new Error("Hubo un error");

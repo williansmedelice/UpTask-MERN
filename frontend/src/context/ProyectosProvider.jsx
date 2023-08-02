@@ -17,6 +17,7 @@ const ProyectosProvider = ({ children }) => {
   const [colaborador, setColaborador] = useState({});
   const [modalEliminarColaborador, setModalEliminarColaborador] =
     useState(false);
+  const [buscador, setBuscador] = useState(false);
 
   const navigate = useNavigate();
   const { auth } = useAuth();
@@ -501,7 +502,7 @@ const ProyectosProvider = ({ children }) => {
         {},
         config
       );
-      console.log("resultados: ", data);
+      // console.log("resultados: ", data);
 
       // Metodo 1
       const proyectoActualizado = { ...proyecto };
@@ -525,6 +526,10 @@ const ProyectosProvider = ({ children }) => {
     }
   };
 
+  const handleBuscador = () => {
+    setBuscador(!buscador);
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -537,6 +542,7 @@ const ProyectosProvider = ({ children }) => {
         colaborador,
         modalEliminarTarea,
         modalEliminarColaborador,
+        buscador,
         mostrarAlerta,
         submitProyecto,
         obtenerProyecto,
@@ -552,6 +558,7 @@ const ProyectosProvider = ({ children }) => {
         handleModalEliminarColaborador,
         eliminarColaborador,
         completarTarea,
+        handleBuscador,
       }}
     >
       {children}
