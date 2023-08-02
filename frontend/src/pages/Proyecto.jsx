@@ -7,11 +7,19 @@ import ModalEliminarTarea from "../components/ModalEliminarTarea";
 import ModalEliminarColaborador from "../components/ModalEliminarColaborador";
 import Tarea from "../components/Tarea";
 import Colaborador from "../components/Colaborador";
+import io from "socket.io-client";
+
+let socket;
 
 const Proyecto = () => {
   const params = useParams();
-  const { proyecto, cargando, obtenerProyecto, handleModalTarea } =
-    useProyectos();
+  const {
+    proyecto,
+    cargando,
+    obtenerProyecto,
+    handleModalTarea,
+    submitTareasProyecto,
+  } = useProyectos();
 
   const admin = useAdmin();
 
@@ -21,9 +29,21 @@ const Proyecto = () => {
     obtenerProyecto(params.id);
   }, []);
 
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_BACKEND_URL);
+    socket.emit("abrir proyecto", params.id);
+  }, []);
+
+  useEffect(() => {
+    socket.on("tarea agregada", (tareaNueva) => {
+      // console.log(tareaNueva);
+      submitTareasProyecto(tareaNueva);
+    });
+  });
+
   const { nombre } = proyecto;
 
-  console.log(proyecto);
+  // console.log(proyecto);
 
   if (cargando) return "Cargando...!";
 

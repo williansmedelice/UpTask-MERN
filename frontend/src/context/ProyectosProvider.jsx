@@ -2,6 +2,9 @@ import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import clientAxios from "../config/clientAxios";
 import useAuth from "../hooks/useAuth";
+import { io } from "socket.io-client";
+
+let socket;
 
 const ProyectosContext = createContext();
 
@@ -44,6 +47,10 @@ const ProyectosProvider = ({ children }) => {
 
     obtenerProyectos();
   }, [auth]);
+
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_BACKEND_URL);
+  }, []);
 
   const mostrarAlerta = (alerta) => {
     setAlerta(alerta);
@@ -239,10 +246,13 @@ const ProyectosProvider = ({ children }) => {
       // console.log(data);
 
       // Agregar tarea creada, sincronizar state actual
-      setProyecto({ ...proyecto, tareas: [...proyecto.tareas, data] });
+      // setProyecto({ ...proyecto, tareas: [...proyecto.tareas, data] });
 
       setAlerta({});
       setModalFormularioTarea(false);
+
+      //SOCKET IO
+      socket.emit("nueva tarea", data);
     } catch (error) {
       console.log(error);
     }
@@ -530,6 +540,20 @@ const ProyectosProvider = ({ children }) => {
     setBuscador(!buscador);
   };
 
+  // Socket io
+  const submitTareasProyecto = (tarea) => {
+    // console.log(tarea);
+
+    //Agregar la tarea al state
+    // Metodo 1
+    // const proyectoActualizado = { ...proyecto };
+    // proyectoActualizado.tareas = [...proyectoActualizado.tareas, tarea];
+    // setProyecto(proyectoActualizado);
+
+    // Metodo 2
+    setProyecto({ ...proyecto, tareas: [...proyecto.tareas, tarea] });
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -559,6 +583,7 @@ const ProyectosProvider = ({ children }) => {
         eliminarColaborador,
         completarTarea,
         handleBuscador,
+        submitTareasProyecto,
       }}
     >
       {children}
