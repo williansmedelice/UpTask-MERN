@@ -16,7 +16,11 @@ dotenv.config();
 conectarDB();
 
 // Configurar CORS
-const whitelist = [process.env.FRONTEND_URL, "http://192.168.0.22:5173", "http://localhost:3000"];
+const whitelist = [
+  process.env.FRONTEND_URL,
+  "http://192.168.0.22:5173",
+  "http://localhost:3000",
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -40,6 +44,21 @@ app.use("/api/tareas", tareaRoutes);
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT, () => {
+const servidor = app.listen(PORT, () => {
   console.log(`Sevidor corriendo en el puerto ${PORT}`);
+});
+
+// Socket.io
+import { Server } from "socket.io";
+
+const io = new Server(servidor, {
+  pingTimeout: 60000,
+  cors: {
+    origin: process.env.FRONTEND_URL,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("Conectado a socket.io");
+  // Definir los eventos de socket.io
 });
