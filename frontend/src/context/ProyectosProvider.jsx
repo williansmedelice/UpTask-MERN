@@ -337,12 +337,12 @@ const ProyectosProvider = ({ children }) => {
 
       // Actualizar tarea, sincronizar state actual
       // Metodo 1
-      const proyectosActualizado = { ...proyecto };
-      proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
-        (tareaState) => tareaState._id !== tarea._id
-      );
+      // const proyectosActualizado = { ...proyecto };
+      // proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
+      //   (tareaState) => tareaState._id !== tarea._id
+      // );
 
-      setProyecto(proyectosActualizado);
+      // setProyecto(proyectosActualizado);
 
       // Metodo 2
       // setProyecto({
@@ -357,6 +357,8 @@ const ProyectosProvider = ({ children }) => {
       setTimeout(() => {
         setAlerta({});
       }, 3000);
+      //SOCKET IO
+      socket.emit("eliminar tarea", data);
     } catch (error) {
       console.log(error);
     }
@@ -551,6 +553,27 @@ const ProyectosProvider = ({ children }) => {
     // Metodo 2
     setProyecto({ ...proyecto, tareas: [...proyecto.tareas, tarea] });
   };
+
+  const eliminarTareasProyecto = (tarea) => {
+    // Actualizar tarea, sincronizar state actual
+      // Metodo 1
+      // const proyectosActualizado = { ...proyecto };
+      // proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
+      //   (tareaState) => tareaState._id !== tarea._id
+      // );
+
+      // setProyecto(proyectosActualizado);
+
+      // Metodo 2
+      // setProyecto({
+      //   ...proyecto,
+      //   tareas: proyecto.tareas.filter(
+      //     (tareaState) => tareaState._id !== tarea._id
+      //   ),
+      // });
+  } 
+
+
 
   return (
     <ProyectosContext.Provider
