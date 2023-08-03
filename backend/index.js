@@ -9,7 +9,7 @@ import tareaRoutes from "./routes/tareaRoutes.js";
 
 const app = express();
 app.use(express.json());
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ const whitelist = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log(origin);
+    // console.log(origin);
     if (whitelist.includes(origin)) {
       // Puede Consultar la API
       callback(null, true);

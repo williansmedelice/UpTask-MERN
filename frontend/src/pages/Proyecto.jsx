@@ -37,14 +37,15 @@ const Proyecto = () => {
   useEffect(() => {
     socket.on("tarea agregada", (tareaNueva) => {
       // console.log(tareaNueva);
-      console.log("tarea agregada desde el server");
-      submitTareasProyecto(tareaNueva);
+      if (tareaNueva.proyecto === proyecto._id) {
+        submitTareasProyecto(tareaNueva);
+      }
     });
   });
 
   const { nombre } = proyecto;
 
-  console.log("Desde Proyecto JSX: ", proyecto);
+  // console.log(proyecto);
 
   if (cargando) return "Cargando...!";
 
