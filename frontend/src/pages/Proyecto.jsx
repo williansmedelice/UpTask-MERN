@@ -37,13 +37,14 @@ const Proyecto = () => {
   useEffect(() => {
     socket.on("tarea agregada", (tareaNueva) => {
       // console.log(tareaNueva);
+      console.log("tarea agregada desde el server");
       submitTareasProyecto(tareaNueva);
     });
   });
 
   const { nombre } = proyecto;
 
-  // console.log(proyecto);
+  console.log("Desde Proyecto JSX: ", proyecto);
 
   if (cargando) return "Cargando...!";
 

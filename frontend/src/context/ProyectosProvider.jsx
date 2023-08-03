@@ -246,13 +246,13 @@ const ProyectosProvider = ({ children }) => {
       // console.log(data);
 
       // Agregar tarea creada, sincronizar state actual
-      // setProyecto({ ...proyecto, tareas: [...proyecto.tareas, data] });
+      setProyecto({ ...proyecto, tareas: [...proyecto.tareas, data] });
 
       setAlerta({});
       setModalFormularioTarea(false);
 
       //SOCKET IO
-      socket.emit("nueva tarea", data);
+      // socket.emit("nueva tarea", data);
     } catch (error) {
       console.log(error);
     }
@@ -542,7 +542,9 @@ const ProyectosProvider = ({ children }) => {
 
   // Socket io
   const submitTareasProyecto = (tarea) => {
-    // console.log(tarea);
+    console.log("Tarea desde submitTareasProyecto ", tarea);
+
+    console.log("Proyecto submitTareasProyecto ", proyecto);
 
     //Agregar la tarea al state
     // Metodo 1
@@ -551,7 +553,7 @@ const ProyectosProvider = ({ children }) => {
     // setProyecto(proyectoActualizado);
 
     // Metodo 2
-    setProyecto({ ...proyecto, tareas: [...proyecto.tareas, tarea] });
+    // setProyecto({ ...proyecto, tareas: [...proyecto.tareas, tarea] });
   };
 
   return (
