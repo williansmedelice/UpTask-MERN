@@ -281,11 +281,11 @@ const ProyectosProvider = ({ children }) => {
       // Actualizar tarea, sincronizar state actual
 
       // Metodo 1
-      const proyectoActualizado = { ...proyecto };
-      proyectoActualizado.tareas = proyectoActualizado.tareas.map(
-        (tareaState) => (tareaState._id === data._id ? data : tareaState)
-      );
-      setProyecto(proyectoActualizado);
+      // const proyectoActualizado = { ...proyecto };
+      // proyectoActualizado.tareas = proyectoActualizado.tareas.map(
+      //   (tareaState) => (tareaState._id === data._id ? data : tareaState)
+      // );
+      // setProyecto(proyectoActualizado);
 
       // Metodo 2
       // setProyecto({
@@ -297,6 +297,9 @@ const ProyectosProvider = ({ children }) => {
 
       setAlerta({});
       setModalFormularioTarea(false);
+
+      // SOCKET IO
+      socket.emit("actualizar tarea", data);
     } catch (error) {
       console.log(error);
     }
@@ -352,13 +355,14 @@ const ProyectosProvider = ({ children }) => {
       //   ),
       // });
 
+      //SOCKET IO
+      socket.emit("eliminar tarea", tarea);
+
       setModalEliminarTarea(false);
       setTarea({});
       setTimeout(() => {
         setAlerta({});
       }, 3000);
-      //SOCKET IO
-      socket.emit("eliminar tarea", data);
     } catch (error) {
       console.log(error);
     }
@@ -533,6 +537,9 @@ const ProyectosProvider = ({ children }) => {
 
       setTarea({});
       setAlerta({});
+      
+      // socket
+      socket.emit("cambiar estado", data);
     } catch (error) {
       console.log(error);
     }
@@ -556,24 +563,56 @@ const ProyectosProvider = ({ children }) => {
 
   const eliminarTareasProyecto = (tarea) => {
     // Actualizar tarea, sincronizar state actual
-      // Metodo 1
-      // const proyectosActualizado = { ...proyecto };
-      // proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
-      //   (tareaState) => tareaState._id !== tarea._id
-      // );
+    // Metodo 1
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
+      (tareaState) => tareaState._id !== tarea._id
+    );
 
-      // setProyecto(proyectosActualizado);
+    setProyecto(proyectosActualizado);
 
-      // Metodo 2
-      // setProyecto({
-      //   ...proyecto,
-      //   tareas: proyecto.tareas.filter(
-      //     (tareaState) => tareaState._id !== tarea._id
-      //   ),
-      // });
-  } 
+    // Metodo 2
+    // setProyecto({
+    //   ...proyecto,
+    //   tareas: proyecto.tareas.filter(
+    //     (tareaState) => tareaState._id !== tarea._id
+    //   ),
+    // });
+  };
 
+  const actualizarTareaProyecto = (tarea) => {
+    // Metodo 1
+    const proyectoActualizado = { ...proyecto };
+    proyectoActualizado.tareas = proyectoActualizado.tareas.map((tareaState) =>
+      tareaState._id === tarea._id ? tarea : tareaState
+    );
+    setProyecto(proyectoActualizado);
 
+    // Metodo 2
+    // setProyecto({
+    //   ...proyecto,
+    //   tareas: proyecto.tareas.map((tareaState) =>
+    //     tareaState._id === data._id ? data : tareaState
+    //   ),
+    // });
+  };
+
+  const cambiarEstadoTarea = (tarea) => {
+    // Metodo 1
+    const proyectoActualizado = { ...proyecto };
+    proyectoActualizado.tareas = proyectoActualizado.tareas.map((tareaState) =>
+      tareaState._id === tarea._id ? tarea : tareaState
+    );
+    setProyecto(proyectoActualizado);
+
+    // Metodo 2
+    // setProyecto({
+    //   ...proyecto,
+    //   tareas: proyecto.tareas.map((tareaState) =>
+    //     tareaState._id === data._id ? data : tareaState
+    //   ),
+    // });
+  };
 
   return (
     <ProyectosContext.Provider
@@ -605,6 +644,9 @@ const ProyectosProvider = ({ children }) => {
         completarTarea,
         handleBuscador,
         submitTareasProyecto,
+        eliminarTareasProyecto,
+        actualizarTareaProyecto,
+        cambiarEstadoTarea,
       }}
     >
       {children}

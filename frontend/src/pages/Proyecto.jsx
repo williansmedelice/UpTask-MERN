@@ -19,6 +19,9 @@ const Proyecto = () => {
     obtenerProyecto,
     handleModalTarea,
     submitTareasProyecto,
+    eliminarTareasProyecto,
+    actualizarTareaProyecto,
+    cambiarEstadoTarea,
   } = useProyectos();
 
   const admin = useAdmin();
@@ -39,6 +42,25 @@ const Proyecto = () => {
       // console.log(tareaNueva);
       if (tareaNueva.proyecto === proyecto._id) {
         submitTareasProyecto(tareaNueva);
+      }
+    });
+
+    socket.on("tarea eliminada", (tareaEliminada) => {
+      // console.log(tareaEliminada);
+      if (tareaEliminada.proyecto === proyecto._id) {
+        eliminarTareasProyecto(tareaEliminada);
+      }
+    });
+
+    socket.on("tarea actualizada", (tareaActualizada) => {
+      if (tareaActualizada.proyecto._id === proyecto._id) {
+        actualizarTareaProyecto(tareaActualizada);
+      }
+    });
+
+    socket.on("nuevo estado", (nuevoEstadoTarea) => {
+      if (nuevoEstadoTarea.proyecto._id === proyecto._id) {
+        cambiarEstadoTarea(nuevoEstadoTarea);
       }
     });
   });
