@@ -44,12 +44,17 @@ const AuthProvider = ({ children }) => {
     autenticarUsuario();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const cerrarSesionAuth = () => {
+    setAuth({});
+  };
   return (
     <AuthContext.Provider
       value={{
         auth,
         cargando,
         setAuth,
+        cerrarSesionAuth,
       }}
     >
       {children}

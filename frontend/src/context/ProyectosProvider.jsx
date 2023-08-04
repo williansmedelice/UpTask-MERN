@@ -24,7 +24,7 @@ const ProyectosProvider = ({ children }) => {
 
   const navigate = useNavigate();
   const { auth } = useAuth();
-
+  
   useEffect(() => {
     const obtenerProyectos = async () => {
       try {
@@ -537,7 +537,7 @@ const ProyectosProvider = ({ children }) => {
 
       setTarea({});
       setAlerta({});
-      
+
       // socket
       socket.emit("cambiar estado", data);
     } catch (error) {
@@ -614,6 +614,12 @@ const ProyectosProvider = ({ children }) => {
     // });
   };
 
+  const cerrarSesionProyectos = () => {
+    setProyectos([]);
+    setProyecto({});
+    setAlerta({});
+  };
+
   return (
     <ProyectosContext.Provider
       value={{
@@ -647,6 +653,7 @@ const ProyectosProvider = ({ children }) => {
         eliminarTareasProyecto,
         actualizarTareaProyecto,
         cambiarEstadoTarea,
+        cerrarSesionProyectos,
       }}
     >
       {children}
